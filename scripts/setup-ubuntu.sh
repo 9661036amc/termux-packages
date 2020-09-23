@@ -167,22 +167,6 @@ PACKAGES+=" protobuf-c-compiler"
 PACKAGES+=" python3-yaml"
 PACKAGES+=" cvs"
 
-# Do not require sudo if already running as root.
-if [ "$(id -u)" = "0" ]; then
-	SUDO=""
-else
-	SUDO="sudo"
-fi
 
-# Allow 32-bit packages.
-$SUDO dpkg --add-architecture i386
-$SUDO apt-get -yq update
 
-$SUDO DEBIAN_FRONTEND=noninteractive \
-	apt-get install -yq --no-install-recommends $PACKAGES
 
-$SUDO locale-gen --purge en_US.UTF-8
-echo -e 'LANG="en_US.UTF-8"\nLANGUAGE="en_US:en"\n' | $SUDO tee -a /etc/default/locale
-
-$SUDO mkdir -p /data/data/com.termux/files/usr
-$SUDO chown -R $(whoami) /data
